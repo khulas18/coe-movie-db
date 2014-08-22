@@ -5,18 +5,22 @@ var functionToCall;
 var totalPages;
 function formatMovieHTML(movie){
 	//make an html layout for a movie
-	var html = '<div class="col-md-6 portfolio-item">'+
+	if(movie.original_title.length>40){
+		movie.original_title = movie.original_title.substr(0,40)+".."
+	}
+	var html = '<div class="col-md-3 portfolio-item">'+
         '<a href="#">'+
-            '<img class="img-responsive" src="'+'https://image.tmdb.org/t/p/w130/'+movie.poster_path+'" alt="/static/img/gplus_sign_in.png">'+
+            '<img height="100px"class="img-responsive" src="'+'https://image.tmdb.org/t/p/w130/'+movie.poster_path+'" alt="/static/img/gplus_sign_in.png">'+
         '</a>'+
-        '<h3>'+
+        '<h4>'+
         '    <a href="#">'+movie.original_title+'</a>'+
-        '</h3>'+
+        '</h4>'+
     '</div>';
     return html;
 }
 function searchMovie(query, page, callback){
 	prevQuery = query;
+	page = (page>1000)?1000:page;
 	functionToCall = searchMovie;
 	var url = baseUrl + "/search/movie";
 	var reqParam = {
@@ -43,8 +47,7 @@ function assignPage(result){
 	totalPages = result.total_pages;
 	var startingPage = (result.page<4)? 1:result.page-3;
 	var endPage = (result.total_pages-result.page>7)? startingPage+7: totalPages;
-	console.log(result);
-	
+	endPage = (endPage>1000)?1000:endPage;
 	var html = '<li><a href="#" onclick="goToPage(1)">&laquo;</a></li>';
 	$(".pagination").append(html);
 	
@@ -56,29 +59,30 @@ function assignPage(result){
 
 	var html = '<li><a href="#" onclick="goToPage(0)">&raquo;</a></li>';
 	$(".pagination").append(html);
+	var b = (result.page ==1)? 0:result.page;
+	var a = (result.page==totalPages)?result.total_results:b*20+20;
 	
-	var a = (result.page==totalPages)?result.total_results:result.page*20+20;
-	$("#page-number").html(result.page*20+"-"+a+" out of "+ result.total_results);
+	$("#page-number").html(b*20+"-"+a+" out of "+ result.total_results);
 	
 	displayMovies(result);
 	$(".page-click").click(function(callback){
-		console.log("page clicked");
 		var pageToSearch = $(this).text();
 		functionToCall(prevQuery,pageToSearch,assignPage);
 	});
 }
 function goToPage(pageToSearch){
+	totalPages=(totalPages>1000)?1000:totalPages;
 	pageToSearch = (pageToSearch==0)? totalPages : 1;
+
 	functionToCall(prevQuery,pageToSearch,assignPage);
 }
 function displayMovies(result){
 	$("#movie-list").html("");
 	var movies = result.results;
 	var movieFormatHTML;
-	$("#movie-list").append("");
 	for(var i=0; i<movies.length;i++){
 		movieFormatHTML = formatMovieHTML(movies[i]);
-		var html = (i%2==0)? "<div clas='row'>"+movieFormatHTML:movieFormatHTML+"</div>";
+		var html = (i%4>0)?movieFormatHTML: '<div style="margin-top:10px;"></div>'+movieFormatHTML;
 		$("#movie-list").append(html);
 	}
 }
@@ -86,7 +90,7 @@ function displayMovies(result){
 
 
 $(document).ready(function() {
-	getMovies("upcoming",1,assignPage);
+	getMovies("popular",1,assignPage);
 	$("#movie-search").submit(function(){
 		var val = $("#movie-search input").val();
 		searchMovie(val,1,displayMovies);

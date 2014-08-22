@@ -8,6 +8,12 @@ body {
     overflow-y: auto;
     visibility: visible;
 }
+.mytab{
+padding: 5px 5px 5px 5px;
+background-color: #C8C8C8;
+width: 34%;
+border: 1px solid #989898;
+}
 
 .title {
   font-family: 'Lobster', cursive;
