@@ -29,7 +29,7 @@ function searchMovie(query, page, callback){
 		page : page
 	}
 	$.get(url,reqParam,callback);
-	$("#"+query).html("Search Results");
+	$(".page-header").html("Search Results");
 }
 function getMovies(query, page, callback){
 	var url = baseUrl +"/movie/" +query;
@@ -43,6 +43,7 @@ function getMovies(query, page, callback){
 	$(".page-header").html($("#"+query).html()+" Movies");
 }
 function assignPage(result){
+	console.log(result);
 	$(".pagination").html("");
 	totalPages = result.total_pages;
 	var startingPage = (result.page<4)? 1:result.page-3;
@@ -59,8 +60,8 @@ function assignPage(result){
 
 	var html = '<li><a href="#" onclick="goToPage(0)">&raquo;</a></li>';
 	$(".pagination").append(html);
-	var b = (result.page ==1)? 0:result.page;
-	var a = (result.page==totalPages)?result.total_results:b*20+20;
+	var b = (result.page ==1)? 0:result.page-1;
+	var a = (result.page==totalPages || totalPages==0)?result.total_results:(totalPages>0)?b*20+20:0;
 	
 	$("#page-number").html(b*20+"-"+a+" out of "+ result.total_results);
 	
@@ -79,6 +80,9 @@ function goToPage(pageToSearch){
 function displayMovies(result){
 	$("#movie-list").html("");
 	var movies = result.results;
+	if(movies.length<1){
+			$("#movie-list").html("<h2>No Result Found</h2>");
+	}
 	var movieFormatHTML;
 	for(var i=0; i<movies.length;i++){
 		movieFormatHTML = formatMovieHTML(movies[i]);
@@ -93,7 +97,7 @@ $(document).ready(function() {
 	getMovies("popular",1,assignPage);
 	$("#movie-search").submit(function(){
 		var val = $("#movie-search input").val();
-		searchMovie(val,1,displayMovies);
+		searchMovie(val,1,assignPage);
 		return false;
 	});
 	$(".filter-link").click(function(){
