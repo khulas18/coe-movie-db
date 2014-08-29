@@ -57,6 +57,10 @@ function createMovieLink(movie){
 	var html = '<a href="#" data-id="'+movie.id+'" class="similar-click">'+movie.title+'</a>';
 	return html;
 }
+function createImg(key){
+	var imageUrl = 'https://image.tmdb.org/t/p/w130/';
+	return "<img src='"+imageUrl+key+"'>";
+}
 function searchMovie(query, page, callback){
 	prevQuery = query;
 	page = (page>1000)?1000:page;
@@ -174,21 +178,32 @@ function showVideos(result){
 }
 function showCasts(result){
 	var casts="";
+	var imageUrl = 'https://image.tmdb.org/t/p/w130/';
+	console.log(result);
 	for(var i=0;i<result.cast.length;i++){
-		casts+= (i!=result.cast.length-1)?result.cast[i].name+", "
-			: " and "+result.cast[i].name;
+
+		casts = "<img src='"+imageUrl+result.cast[i].profile_path+"'>"+result.cast[i].name+" as " +result.cast[i].character+"<br>";
+		if(i<5){
+			$("#casts").append(casts);
+		}
+		else{
+			$("#casts2").append(casts);
+		}
 	}
-	$("#casts").html(casts);
+	$("#showCasts").click(function(){
+		$("#casts2").toggle();
+		var text = ($(this).text()=="Show All")? "Show Less": "Show All";
+		$(this).text(text);
+	});
 }
 function showSimiralMovies(result){
 	var similarMovies = result.results;
+	console.log(similarMovies);
 	var movies;
 	$("#similar-movies1").html("");
 	$("#similar-movies2").html("");
 	for(var i=0;i<similarMovies.length;i++){
-		movies=(i==3)?createMovieLink(similarMovies[i])
-			:(i!=similarMovies.length-1)?createMovieLink(similarMovies[i])+", "
-			:createMovieLink(similarMovies[i]);
+		movies= createImg(similarMovies[i].poster_path)+createMovieLink(similarMovies[i])+"<br>";
 		if(i<4){
 			$("#similar-movies1").append(movies);
 		}else{
@@ -200,7 +215,6 @@ function showSimiralMovies(result){
 		hist.push(id);
 		firstBack=true;
 		queryMovie(id);
-
 	});	
 }
 function movieClick(){

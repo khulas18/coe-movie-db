@@ -45,16 +45,14 @@ a{
 	margin-left:30%;
 }
 .moviedetails{
-	width: 400px;
-	padding-top: 50px;
+	width: 80%;
 	padding-right: 50px;
 	padding-left: 50px;
 	padding-bottom: 50px;
-	margin-top: 70px;
 	border: 2px solid black;
 	border-radius: 8px;
 	background-color: #D0D0D0;
-	margin-left:45px;
+	margin-left:20%;
 }
 #back{
 	padding: 10px 20px 10px 20px;

@@ -24,66 +24,7 @@
     <![endif]-->
 
 </head>
-<style>
-.content{
-	margin-top:100px;
-}
-.container{
-	padding-top:10px;
-	padding-bottom:10px;
 
-}
-#movielist{
-	background-color: #D0D0D0;
-}
-.img-responsive{
-	padding: 10px 60px 10px 60px;
-	background-color: #A8A8A8;
-	border: 2px solid #404040;
-}
-
-h3{
-	text-align:center;
-}
-a{
-	color:black;
-}
-.row{
-	margin-top: inherit;
-}
-.col-md-3{
-	height:300px;
-}
-.video{
-	margin-left:430px;
-	padding:20px 20px 20px 20px;
-}
-.nav-tabs{
-	width:420px;
-}
-.movie-view{
-	margin-left:30%;
-}
-.moviedetails{
-	width: 400px;
-	padding-top: 50px;
-	padding-right: 50px;
-	padding-left: 50px;
-	padding-bottom: 50px;
-	margin-top: 70px;
-	border: 2px solid black;
-	border-radius: 8px;
-	background-color: #D0D0D0;
-	margin-left:45px;
-}
-#back{
-	padding: 10px 20px 10px 20px;
-	background-color: #D0D0D0;
-	border-radius: 8px;
-	border: 1px solid #686868;
-	width:80px;
-}
-</style>
 <body style="background-image:url(/static/img/white.jpg);background-repeat:no-repeat;background-attachment: fixed;" >
 	
 
@@ -174,45 +115,44 @@ a{
 				  <li class="active"><a href="#Trailer1" role="tab" data-toggle="tab">Trailer1</a></li>
 				  <li><a href="#Trailer2" role="tab" data-toggle="tab">Trailer2</a></li>
 				</ul>
-					<div class="tab-content">
-						  <div class="tab-pane active" id="Trailer1">
-								
-						  </div>
-						 <div class="tab-pane" id="Trailer2">
-								  	
-						  </div>
-				<div class="moviedetails">
-
-						<font face="cursive" >
-							<h3>Synopsis: </h3>
-							<div id="synopsis"></div>
-						</font>
-						<p></p>
-						
-						<font face="cursive">
-                            <h3>Cast: </h3>
-                            <div id="casts"></div>
-                        </font>
-						<p></p>
-                        <font face="cursive">
-                            <h3>Similar Movies: </h3>
-                            <div>
-                                <span id="similar-movies1"></span>
-                                <a href="javascript:void(0)" class="similar-toggle" style = "color:blue">Show all</a>
-                                <span id="similar-movies2" style="display:none"></span>
-                                <a href="javascript:void(0)" class="similar-toggle" style = "color:blue; display:none">Show less</a>
-                            </div>
-
-                        </font>
-                        <p></p>
-						
-		
-		  			</div>
+				<div class="tab-content">
+					<div class="tab-pane active" id="Trailer1">		
+				</div>
+				<div class="tab-pane" id="Trailer2">
+				</div>
+				
 		  		</div>
 		  	</div>
-    	</div>	
+            <div class="moviedetails">
 
+                <font face="cursive" >
+                    <h3>Synopsis: </h3>
+                    <div id="synopsis"></div>
+                </font>
+                <p></p>
+                
+                <font face="cursive">
+                    <h3>Cast: </h3>
+                    <div id="casts"></div>
+                    <div id="casts2" style="display:none"></div>
+                    <div id="showCasts"><a href="javascript:void(0)">Show All</a></div>
+                </font>
+                <p></p>
+                <font face="cursive">
+                    <h3>Similar Movies: </h3>
+                    <div>
+                        <span id="similar-movies1"></span>
+                        <a href="javascript:void(0)" class="similar-toggle" style = "color:blue">Show all</a>
+                        <span id="similar-movies2" style="display:none"></span>
+                        <a href="javascript:void(0)" class="similar-toggle" style = "color:blue; display:none">Show less</a>
+                    </div>
 
+                </font>
+                <p></p>
+                
+
+            </div>  
+    	</div>
 
     </div>
     <!-- /.container -->
