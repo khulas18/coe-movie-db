@@ -182,7 +182,7 @@ function showCasts(result){
 	console.log(result);
 	for(var i=0;i<result.cast.length;i++){
 
-		casts = createImg(result.cast[i].profile_path)+result.cast[i].name+" as " +result.cast[i].character+"<br>";
+		casts = createImg(result.cast[i].profile_path)+result.cast[i].name+" as " +result.cast[i].character+"<hr>";
 		if(i<5){
 			$("#casts").append(casts);
 		}
@@ -203,7 +203,7 @@ function showSimiralMovies(result){
 	$("#similar-movies1").html("");
 	$("#similar-movies2").html("");
 	for(var i=0;i<similarMovies.length;i++){
-		movies= createImg(similarMovies[i].poster_path)+createMovieLink(similarMovies[i])+"<br>";
+		movies= createImg(similarMovies[i].poster_path)+createMovieLink(similarMovies[i])+"<hr>";
 		if(i<4){
 			$("#similar-movies1").append(movies);
 		}else{
