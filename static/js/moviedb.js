@@ -182,7 +182,7 @@ function showCasts(result){
 	console.log(result);
 	for(var i=0;i<result.cast.length;i++){
 
-		casts = "<img src='"+imageUrl+result.cast[i].profile_path+"'>"+result.cast[i].name+" as " +result.cast[i].character+"<br>";
+		casts = createImg(result.cast[i].profile_path)+result.cast[i].name+" as " +result.cast[i].character+"<br>";
 		if(i<5){
 			$("#casts").append(casts);
 		}
@@ -192,8 +192,8 @@ function showCasts(result){
 	}
 	$("#showCasts").click(function(){
 		$("#casts2").toggle();
-		var text = ($(this).text()=="Show All")? "Show Less": "Show All";
-		$(this).text(text);
+		var text = ($(this).text()=="Show All")? "<a href='#'>Show Less</a>": "<a href='#'>Show All</a>";
+		$(this).html(text);
 	});
 }
 function showSimiralMovies(result){
