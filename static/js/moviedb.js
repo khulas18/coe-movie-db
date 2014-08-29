@@ -54,12 +54,12 @@ function makeEmbed(key){
 }
 function createMovieLink(movie){
 	movie.title = (movie.title.length<1)? movie.original_title : movie.title;
-	var html = '<a href="#" data-id="'+movie.id+'" class="similar-click">'+movie.title+'</a>';
+	var html = '<a href="javascript:void(0)" data-id="'+movie.id+'" class="similar-click">'+movie.title+'</a>';
 	return html;
 }
 function createImg(key){
 	var imageUrl = 'https://image.tmdb.org/t/p/w130/';
-	return "<img src='"+imageUrl+key+"'>";
+	return "<span class='img'><img src='"+imageUrl+key+"'></span>";
 }
 function searchMovie(query, page, callback){
 	prevQuery = query;
@@ -182,8 +182,8 @@ function showCasts(result){
 	console.log(result);
 	for(var i=0;i<result.cast.length;i++){
 
-		casts = createImg(result.cast[i].profile_path)+result.cast[i].name+" as " +result.cast[i].character+"<hr>";
-		if(i<5){
+		casts = createImg(result.cast[i].profile_path)+"<div class='name'>"+result.cast[i].name+" as " +result.cast[i].character+"</div><hr>";
+		if(i<4){
 			$("#casts").append(casts);
 		}
 		else{
@@ -192,7 +192,7 @@ function showCasts(result){
 	}
 	$("#showCasts").click(function(){
 		$("#casts2").toggle();
-		var text = ($(this).text()=="Show All")? "<a href='#'>Show Less</a>": "<a href='#'>Show All</a>";
+		var text = ($(this).text()=="Show All")? "<a href='javascript:void(0)'>Show Less</a>": "<a href='javascript:void(0)'>Show All</a>";
 		$(this).html(text);
 	});
 }
@@ -203,7 +203,7 @@ function showSimiralMovies(result){
 	$("#similar-movies1").html("");
 	$("#similar-movies2").html("");
 	for(var i=0;i<similarMovies.length;i++){
-		movies= createImg(similarMovies[i].poster_path)+createMovieLink(similarMovies[i])+"<hr>";
+		movies= createImg(similarMovies[i].poster_path)+'<div class="movie-title">'+createMovieLink(similarMovies[i])+"</div><hr>";
 		if(i<4){
 			$("#similar-movies1").append(movies);
 		}else{

@@ -110,46 +110,52 @@
         <div id="movie-view">
         	<div id="back"><a href="#">BACK</a></div>
 			<div class="movie-view">
- 								<!-- Nav tabs -->
-				<ul class="nav nav-tabs" role="tablist">
-				  <li class="active"><a href="#Trailer1" role="tab" data-toggle="tab">Trailer1</a></li>
-				  <li><a href="#Trailer2" role="tab" data-toggle="tab">Trailer2</a></li>
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane active" id="Trailer1">		
-				</div>
-				<div class="tab-pane" id="Trailer2">
-				</div>
-				
-		  		</div>
+                <table>
+                    <tr>
+                        <td>
+                            <ul class="nav nav-tabs" role="tablist">
+                              <li class="active"><a href="#Trailer1" role="tab" data-toggle="tab">Trailer1</a></li>
+                              <li><a href="#Trailer2" role="tab" data-toggle="tab">Trailer2</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="Trailer1">     
+                                </div>
+                                <div class="tab-pane" id="Trailer2">
+                                </div>
+                            
+                            </div>
+                        </td>
+                        <td>
+         					<!-- Nav tabs -->
+            				
+                            <div class="moviedesc" style="padding-left:20px">
+                                <font face="cursive" >
+                                    <h3>Synopsis: </h3>
+                                    <div id="synopsis"></div>
+                                </font>
+                                <p></p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
 		  	</div>
             <div class="moviedetails">
-
-                <font face="cursive" >
-                    <h3>Synopsis: </h3>
-                    <div id="synopsis"></div>
-                </font>
-                <p></p>
-                
-                <font face="cursive">
-                    <h3>Cast: </h3>
-                    <div id="casts"></div>
-                    <div id="casts2" style="display:none"></div>
-                    <div id="showCasts"><a href="#">Show All</a></div>
-                </font>
-                <p></p>
-                <font face="cursive">
-                    <h3>Similar Movies: </h3>
-                    <div>
-                        <span id="similar-movies1"></span>
-                        <a href="javascript:void(0)" class="similar-toggle" style = "color:blue">Show all</a>
-                        <span id="similar-movies2" style="display:none"></span>
-                        <a href="javascript:void(0)" class="similar-toggle" style = "color:blue; display:none">Show less</a>
-                    </div>
-
-                </font>
-                <p></p>
-                
+             
+                    <font face="cursive" class="col-md-6"style="float:left">
+                        <h2>Casts: </h2>
+                        <div id="casts"></div>
+                        <div id="casts2" style="display:none"></div>
+                        <div id="showCasts"><a href="#">Show All</a></div>
+                    </font>
+          
+                    <font face="cursive" class="col-md-6" style="float:left">
+                        <h2>Similar Movies: </h2>
+                            <span id="similar-movies1"></span>
+                            <a href="javascript:void(0)" class="similar-toggle" style = "color:blue">Show all</a>
+                            <span id="similar-movies2" style="display:none"></span>
+                            <a href="javascript:void(0)" class="similar-toggle" style = "color:blue; display:none">Show less</a>
+                    </font>
+            
 
             </div>  
     	</div>
