@@ -20,7 +20,13 @@ class MainHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('templates/main.html')
         self.response.write(template.render())
 
+class ViewPage(webapp2.RequestHandler):
+    def get(self,id):
+        values = { "id" : id }
+        template = JINJA_ENVIRONMENT.get_template('templates/view.html')
+        self.response.write(template.render(values))
 
 application = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/view/(.*)',ViewPage),
 ], debug=True)
