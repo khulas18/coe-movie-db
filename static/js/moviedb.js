@@ -28,27 +28,6 @@ function init(){
 		$("#back").click(goBack);
 	});
 }
-function formatMovieHTML(movie){
-	//make an html layout for a movie
-	var imageUrl = 'https://image.tmdb.org/t/p/w130/';
-	if(movie.original_title.length>40){
-		movie.original_title = movie.original_title.substr(0,40)+"..";
-	}
-	if(!movie.poster_path){
-		imageUrl = "/static/img/movie.jpg";
-	}else{
-		imageUrl +=movie.poster_path;
-	}
-	var html = '<div class="col-md-3 portfolio-item" data-id="'+movie.id+'">'+
-        '<a href="#">'+
-            '<img height="100px"class="img-responsive" src="'+imageUrl+'" alt="/static/img/logo.png">'+
-        '</a>'+
-        '<h4>'+
-        '    <a href="#" >'+movie.original_title+'</a>'+
-        '</h4>'+
-    '</div>';
-    return html;
-}
 function makeEmbed(key){
 	return '<embed width="500" height="400" src="https://www.youtube.com/v/'+key+'" type="application/x-shockwave-flash">'
 }
@@ -122,17 +101,14 @@ function goToPage(pageToSearch){
 	functionToCall(prevQuery,pageToSearch,assignPage);
 }
 function displayMovies(result){
+	console.log(result);
+	var source   = $("#tpl-list").html();
+	var template = Handlebars.compile(source);	
 	$("#movie-list").html("");
-	var movies = result.results;
-	if(movies.length<1){
-			$("#movie-list").html("<h2>No Result Found</h2>");
-	}
-	var movieFormatHTML;
-	for(var i=0; i<movies.length;i++){
-		movieFormatHTML = formatMovieHTML(movies[i]);
-		var html = (i%4>0)?movieFormatHTML: '<div style="margin-top:10px;"></div>'+movieFormatHTML;
-		$("#movie-list").append(html);
-	}
+	
+	//console.log(movies);
+	var html = template(result);
+	$("#movie-list").append(html);
 	$(".col-md-3").click(movieClick);
 }
 function queryMovie(id){
@@ -142,6 +118,7 @@ function queryMovie(id){
 	$.get(url,reqParam,showMovie);
 }
 function showMovie(result){
+	console.log(result);
 	showViewPage();
 	$(".page-header").text(result.original_title);
 	var synopsis = result.overview;
@@ -199,6 +176,7 @@ function showCasts(result){
 function showSimiralMovies(result){
 	var similarMovies = result.results;
 	console.log(similarMovies);
+
 	var movies;
 	$("#similar-movies1").html("");
 	$("#similar-movies2").html("");

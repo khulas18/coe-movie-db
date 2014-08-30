@@ -1,0 +1,51 @@
+
+<html>
+<head>
+	<title></title>
+	<script src="/static/js/jquery-1.11.0.js"></script>
+	<script src="/static/js/moviedb.js"></script>
+	<script src="/static/js/handlebars.js"></script>
+
+
+</head>
+<body>
+	<div id="content">
+
+	</div>
+{% raw %}
+	<script type="text/x-handlebars-template" id="tpl-tweets">
+		<ul>
+		{{#each this}}
+			<li>
+				<h3>{{ author }}</h3>
+				{{ post }}
+			</li>
+		{{/each}}
+		</ul>
+	</script>
+
+{% endraw %}
+
+<script type="text/javascript">
+	var source   = $("#tpl-tweets").html();
+	var template = Handlebars.compile(source);	
+	var tweets = [
+		{
+			"author": "Carlo",
+			"post" : "Post ni Carlo"
+		},{
+
+		},{
+			"author": "telle",
+			"post": "post ni telle"
+		}
+	];
+	var html = template(tweets);
+	console.log(html);
+	$("#content").append(html);
+
+
+	
+</script>
+</body>
+</html>

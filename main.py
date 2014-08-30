@@ -26,7 +26,13 @@ class ViewPage(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('templates/view.html')
         self.response.write(template.render(values))
 
+class HandlebarsHandler(webapp2.RequestHandler):
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('templates/handelbars.html')
+        self.response.write(template.render())
+
 application = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/view/(.*)',ViewPage),
+    ('/handlebars', HandlebarsHandler)
 ], debug=True)

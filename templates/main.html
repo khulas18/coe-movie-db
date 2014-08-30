@@ -88,6 +88,7 @@
 
         <!-- Projects Row -->
         <div id="movie-list">
+
         </div>
         <!-- /.row -->
 
@@ -169,8 +170,23 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="/static/js/bootstrap.min.js"></script>
     <!-- movie db api js -->
+    <script src="/static/js/handlebars.js"></script>
     <script src="/static/js/moviedb.js"></script>
     <script type="text/javascript">init();</script>
+    {% raw %}
+    <script type="text/x-handlebars-template" id="tpl-list">
+    {{#each this.results}}
+        <div class="col-md-3 portfolio-item" data-id="{{id}}">
+            <a href="#">
+                <img height="100px"class="img-responsive" src="https://image.tmdb.org/t/p/w130/{{poster_path}}" alt="/static/img/logo.png">
+            </a>
+            <h4>
+                <a href="#" >{{title}}</a>
+            </h4>
+        </div>
+    {{/each}}    
+    </script>
+    {% endraw %}
 </body>
 
 </html>

@@ -17,6 +17,9 @@ handlers:
 - url: /static/js
   static_dir: static/js
 
+- url: /static/vendors
+  static_dir: static/vendors
+
 - url: /static
   static_dir: static
 
