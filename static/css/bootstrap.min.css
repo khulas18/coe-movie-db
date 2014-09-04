@@ -56,7 +56,7 @@ a{
 }.poster{
 	height: 100px;
 	width: 100px;
-}.movie-title{
+}.movie-desc,.movie-title{
 	color: white;
 	padding-left: 10px;
 }

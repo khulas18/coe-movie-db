@@ -43,7 +43,20 @@ $(function() {
 		$(".page-header").html("Search Results");
     }
     function showMovies(result,query,type){
-    	console.log(result);
+    	for(var i=0; i<result.results.length;i++){
+    		var url = baseUrl + "movie/"+result.results[i].id +"/credits"
+    		var reqParam = {
+    			api_key : apiKey
+    		}
+    		 $.get(url,reqParam,function(response){
+    		 	var count = (response.cast.length>4)?4:response.cast.length
+    			for(var i=0;i<count;i++){
+    				var cast = (i==cast-1)? response.cast[i].name: response.cast[i].name+", ";
+    				$("#"+response.id).append(cast);
+    			}
+    			});
+    		}
+
     	var templateValues = {
 			"result":result,
 			"config":config
@@ -73,17 +86,33 @@ $(function() {
 		html = html + page;
 		$("#movie-list").html(html);
 		$(".page-link:contains('"+result.page+"')").parent().addClass("active");
+		//Set Event for page Click
 		$(".page-link").click(function(){
 			if(type=="search"){
 				var pageToView = $(this).data("id");
-				movieSearch(query,pageToView);
-				console.log(pageToView);
+				movieSearch(query,pageToView);	
 			}else{
 				var pageToView = $(this).data("id");
 				queryMovies(query,pageToView);
-				console.log(pageToView);
 			}
 		});
+
+		//set Event for Movie Click
+
+		$(".movie-link").click(function(){
+			
+			singleMovieQuery($(this).data("id"));
+		});
+    }
+    function singleMovieQuery(id){
+    	var url = baseUrl+"movie/"+id;
+    	var reqParam = {
+    		api_key: apiKey
+    	}
+    	$.get(url,reqParam,showSingleMovie)
+    }
+    function showSingleMovie(result){
+    	
     }
     
     function getTemplate(sourceID,values){
