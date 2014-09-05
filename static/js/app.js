@@ -63,7 +63,8 @@
 
     	var templateValues = {
 			"result":result,
-			"config":config
+			"config":config,
+			"header": query.toUpperCase().replace("_"," ")
 		}
     	var html = getTemplate("tpl-list",templateValues);
     	//Pagination
