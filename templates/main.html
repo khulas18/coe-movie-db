@@ -2,27 +2,12 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
     <title>MovieDB</title>
-
-    <!-- Bootstrap Core CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <!--link href="/static/css/2-col-portfolio.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+    <script src="/static/js/jquery-1.11.0.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/handlebars.js"></script>
+    <script src="/static/js/app.js"></script>
 </head>
 
 <body style="background-image:url(/static/img/white.jpg);background-repeat:no-repeat;background-attachment: fixed;" >
@@ -72,46 +57,30 @@
     </nav>
 
     <div class="container" style="margin-top:30px">
-        <div class="row">
+        
+        <div id="movie-list">
+
             <div class="col-lg-12">
                 <h1 class="page-header" style="border-bottom:1px solid black">Page Heading
                     <small>Secondary Text</small>
                 </h1>
             </div>
-        </div>
-        <div id="movie-list">
+
         </div>
         <hr>
 
         <div id="movie-view">
-            <div class="page-header">
-                
-            </div>
-            <hr>
-            <div class="row">
-                <div id="trailer">
-
-                </div>
-                <div id="movie-details">
-
-                </div>
-            </div>
-            <div class="row">
-
-            </div>
+            
     	</div>
 
     </div>
-    <script src="/static/js/jquery-1.11.0.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/handlebars.js"></script>
-    <script src="/static/js/app.js"></script>
+
     {% raw %}
     <script type="text/x-handlebars-template" id="tpl-list">
     {{#each this.result.results}}
         <div class="col-md-6 movie movie-link" data-id="{{id}}">
            
-                <img width="100%" height="100%" class="img-responsive backdrop" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[5]}}{{backdrop_path}}" alt="/static/img/logo.png">
+                <img width="100%" height="100%" class="img-responsive backdrop" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[3]}}{{backdrop_path}}" alt="/static/img/logo.png">
                 <div class="movie-desc">
                  <a href="#">
                     <img height="100px" class="img-responsive poster" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[1]}}{{poster_path}}" alt="/static/img/logo.png">
@@ -149,9 +118,111 @@
         </div>
     </script>
 
-    <script type="text/x-handlebars-template" id="tpl-view">
+    <script type="text/x-handlebars-template" id="tpl-movie-view">
+        <div id="carousel-backdrop" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+              <ol class="carousel-indicators">
+               {{#each movie.images.backdrops}}
+                <li data-target="#carousel-backdrop" data-slide-to="{{@index}}" {{#unless @index}}class="active"{{/unless}}></li>
+                {{/each}}
+              </ol>
+
+              <!-- Wrapper for slides -->
+             <div class="carousel-inner">
+             {{#each movie.images.backdrops}}
+                <div class="item{{#unless @index}} active{{/unless}}">
+                    <img style="height:400px"class="carousel-img " src="{{../config.images.base_url}}{{../config.images.poster_sizes.[6]}}{{file_path}}" alt="">
+                        <div class="carousel-caption">
+                            <h1 class="page-header" style="border-bottom:1px solid black">{{../movie.title}}</h1>
+
+                        </div>
+                </div>
+            {{/each}}
+            </div>
+
+
+              <a class="left carousel-control" href="#carousel-backdrop" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+              </a>
+              <a class="right carousel-control" href="#carousel-backdrop" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+              </a>
+            </div>
+
+
+            <div class="row">
+                <div id="trailer">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <iframe src="https://www.youtube.com/embed/{{movie.videos.results.0.key}}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div id="movie-details">
+                    <h3>Overview: </h3>
+                    {{movie.overview}}
+                    <h2>Tagline:</h2>
+                        {{#if movie.tagline}} {{movie.tagline}}                   
+                        {{else}} No tagline
+                        {{/if}}
+                   
+                </div>
+            </div>
+            <div class="row">
+
+                    <h3>Casts: </h3>
+                     <hr>
+                    {{#each_upto movie.casts.cast 4}}
+                        <div class="col-md-1 casts" class="cast">
+                            <img class="img-responsive" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[0]}}{{profile_path}}">
+                            {{name}}
+                        </div>
+                    {{/each_upto}}
+                    <div style="display:none">
+                        {{#each_from movie.casts.cast 5}}
+                            <div class="col-md-1 casts">
+                                <img class="img-responsive" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[0]}}{{profile_path}}">
+                                {{name}}
+                            </div>
+                        {{/each_from}}
+                    </div>
+                     <div>
+                        <a href="#" onclick="togglePrevDiv(this)" class="show-hide">Show/Hide</a>
+                    </div>
+                    <div class="detail-container">
+
+                    </div>    
+                </div>
+                <div></div>
+
+                    <h3>Similar Movies: </h3>
+                     <hr>
+                    {{#each_upto movie.similar.results 4}}
+                        <a class="movie-link" href="#" onclick="singleMovieQuery({{id}})">
+                            <div class="col-md-1 casts" class="cast">
+                                <img class="img-responsive" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[0]}}{{poster_path}}">
+                                {{original_title}}
+                            </div>
+                        </a>
+                    {{/each_upto}}
+                    <div style="display:none">
+                        {{#each_from movie.similar.results 5}}
+                            <a href="#" class="movie-link" onclick="singleMovieQuery({{id}})">
+                                <div class="col-md-1 casts">
+                                    <img class="img-responsive" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[0]}}{{poster_path}}">
+                                    {{original_title}}
+                                </div>
+                            </a>
+                        {{/each_from}}
+                    </div>
+                     <div>
+                        <a href="#" onclick="togglePrevDiv(this)" class="show-hide">Show/Hide</a>
+                    </div>
+                </div>    
+            </div>
+
     </script>
     {% endraw %}
 </body>
 
 </html>
+ 
+

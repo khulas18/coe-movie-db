@@ -1,4 +1,4 @@
-$(function() {
+
     // your code here
     var apiKey = "dcce25287b437a887af549709e56a789";
 	var baseUrl = "http://api.themoviedb.org/3/";
@@ -6,7 +6,7 @@ $(function() {
 
 	function initialize(callback) {
         $.get(baseUrl + 'configuration', {
-            api_key: '0b1c30459eac1e2bbf48dbd4f72830fa'
+            api_key: apiKey
         },function(res) {
             config = res;
             callback();
@@ -14,6 +14,7 @@ $(function() {
     }
     function setEventHandlers(){
     	$(".filter-link").click(function(){
+    		showHideList(true);
     		var query = $(this).attr("id");
     		queryMovies($(this).attr("id"),1);
     	});
@@ -24,6 +25,7 @@ $(function() {
     	$("#top_rated").click();
     }
     function queryMovies(filter,page){
+    	console.log("click");
     	var url = baseUrl +"movie/" +filter;
 		var reqParam = {
 			api_key : apiKey,
@@ -31,6 +33,7 @@ $(function() {
 		}
 		$.get(url,reqParam,function(response){showMovies(response,filter,"filter")});
 		$(".page-header").html(filter.toUpperCase().replace("_"," "));
+
     }
     function movieSearch(query,page){
 		var url = baseUrl + "search/movie";
@@ -43,6 +46,7 @@ $(function() {
 		$(".page-header").html("Search Results");
     }
     function showMovies(result,query,type){
+    	//casts
     	for(var i=0; i<result.results.length;i++){
     		var url = baseUrl + "movie/"+result.results[i].id +"/credits"
     		var reqParam = {
@@ -54,8 +58,8 @@ $(function() {
     				var cast = (i==cast-1)? response.cast[i].name: response.cast[i].name+", ";
     				$("#"+response.id).append(cast);
     			}
-    			});
-    		}
+    		});
+    	}
 
     	var templateValues = {
 			"result":result,
@@ -63,7 +67,6 @@ $(function() {
 		}
     	var html = getTemplate("tpl-list",templateValues);
     	//Pagination
-
     	var startingPage = (result.page);
     	var startingPage = (result.page<4)? 1:result.page-3;
 		var endPage = (result.total_pages-result.page>7)? startingPage+7: result.total_pages;
@@ -99,29 +102,94 @@ $(function() {
 
 		//set Event for Movie Click
 
-		$(".movie-link").click(function(){
-			
+		$(".movie-link").click(function(){		
 			singleMovieQuery($(this).data("id"));
 		});
     }
     function singleMovieQuery(id){
+    	showHideList(false);
     	var url = baseUrl+"movie/"+id;
     	var reqParam = {
     		api_key: apiKey
     	}
     	$.get(url,reqParam,showSingleMovie)
     }
-    function showSingleMovie(result){
+    function showSingleMovie(movie){
+    	var templateValues = {
+			"movie":movie,
+			"config":config
+		}
+		reqParam = {
+			api_key: apiKey
+		}
+		var url = baseUrl + "movie/"+ movie.id + "/credits";
+		$.get(url,reqParam,function(casts){
+			movie.casts= casts;
+
+			url = baseUrl + "movie/"+ movie.id + "/videos";
+			$.get(url,reqParam,function(videos){
+				movie.videos = videos;
+
+				url = baseUrl + "movie/"+ movie.id + "/images";
+				 $.get(url,reqParam,function(images){
+				 	movie.images= images;
+
+				 	url = baseUrl + "movie/"+ movie.id + "/similar";
+				 	$.get(url,reqParam,function(similar){
+				 		movie.similar = similar;
+				 		console.log(movie);
+				 		writeTemplate("tpl-movie-view",templateValues,"movie-view");
+
+
+				 	});
+				 });
+			});
+		});
+
     	
     }
-    
+    function writeTemplate(sourceID,values,outputID){
+		var html = getTemplate(sourceID,values)
+		$("#"+outputID).html(html);
+    }
     function getTemplate(sourceID,values){
     	var source   = $("#"+sourceID).html();
 		var template = Handlebars.compile(source);	
 		var html = template(values);
 		return html;
     }
+    function showHideList(visibility){
+    	if(visibility){
+    		$("#movie-list").show();
+    		$("#movie-view").hide();
+    	}else{
+    		$("#movie-list").hide();
+    		$("#movie-view").show();
+    	}
+    }
+
+    //Handlebars helpers
+    Handlebars.registerHelper('each_upto', function(ary, max, options) {
+	    if(!ary || ary.length == 0)
+	        return options.inverse(this);
+	    var result = [ ];
+	    for(var i = 0; i < max && i < ary.length; ++i)
+	        result.push(options.fn(ary[i]));
+	    return result.join('');
+	});
+	Handlebars.registerHelper('each_from', function(ary, starting, options) {
+	    if(!ary || ary.length == 0)
+	        return options.inverse(this);
+	    var result = [ ];
+	    for(var i = starting; i < ary.length; ++i)
+	        result.push(options.fn(ary[i]));
+	    return result.join('');
+	});
+
 
     initialize(setEventHandlers);
 
-});
+
+	function togglePrevDiv(a){
+		$(a).parent().prev().slideToggle();
+	}
