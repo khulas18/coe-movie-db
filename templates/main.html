@@ -82,7 +82,7 @@
                     {{#if backdrop_path}}src="{{../../config.images.base_url}}{{../../config.images.poster_sizes.[3]}}{{backdrop_path}}" 
                     {{else}}src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQFkoKibkS4-HEX0leN_MTEp28tcaF0Qwow00o0PlRCyJTfDEzo"
                     {{/if}}>
-                <div class="movie-desc">
+                <div class="movie-desc"     >
                  <a href="#">
                     <img height="100px" class="img-responsive poster" 
                         {{#if poster_path}}src="{{../../config.images.base_url}}{{../../config.images.poster_sizes.[1]}}{{poster_path}}" 
@@ -106,15 +106,15 @@
             <div class="col-lg-12">
                 <ul class="pagination">
                     <li {{#if startingPage}}class="disabled"{{/if}}>
-                        <a href="#" data-query="{{query}}">&laquo;</a>
+                        <a href="#" data-query="{{query}}" class="page-link" data-id="1">&laquo;</a>
                     </li>
                     {{#each this.pages}}
-                        <li>
-                            <a href="#" class="page-link" {{#if active}}class="active"{{/if}} data-query="{{../query}}" data-id="{{page}}">{{page}}</a>
+                        <li {{#if active}}class="active"{{/if}}>
+                            <a href="#" class="page-link"  data-query="{{../query}}" data-id="{{page}}">{{page}}</a>
                         </li>
                     {{/each}}
                     <li {{#if endPage}}class="disabled"{{/if}}>
-                        <a href="#" data-query="{{query}}">&raquo;</a>
+                        <a href="#" data-query="{{query}}" class="page-link" data-id="{{lastPage}}">&raquo;</a>
                     </li>
                 </ul>
                 <div id="page-number"></div>
@@ -170,8 +170,7 @@
                    
                 </div>
             </div>
-            <div class="row">
-
+            <div class="row " id="characters">
                     <h3>Casts: </h3>
                      <hr>
                     {{#each_upto movie.casts.cast 4}}
@@ -189,19 +188,20 @@
                         {{/each_from}}
                     </div>
                      <div>
-                        <a href="#" onclick="togglePrevDiv(this)" class="show-hide">Show/Hide</a>
+                        <a href="javascript:void(0)" onclick="togglePrevDiv(this)" class="show-hide">Show/Hide</a>
                     </div>
                     <div class="detail-container">
 
                     </div>    
                 </div>
-                <div></div>
 
-                    <h3>Similar Movies: </h3>
+                <div></div>
+                    <div class="row" id="characters">
+                    <h3><font color="white">Similar Movies: </font></h3>
                      <hr>
                     {{#each_upto movie.similar.results 4}}
-                        <a class="movie-link" href="#" onclick="singleMovieQuery({{id}})">
-                            <div class="col-md-1 casts" class="cast">
+                        <a class="movie-link" href="javascript:void(0)" onclick="singleMovieQuery({{id}})">
+                            <div class="col-md-3 casts" class="casts">
                                 <img class="img-responsive" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[0]}}{{poster_path}}">
                                 {{original_title}}
                             </div>
@@ -209,8 +209,8 @@
                     {{/each_upto}}
                     <div style="display:none">
                         {{#each_from movie.similar.results 5}}
-                            <a href="#" class="movie-link" onclick="singleMovieQuery({{id}})">
-                                <div class="col-md-1 casts">
+                            <a href="javascript:void(0)" class="movie-link" onclick="singleMovieQuery({{id}})">
+                                <div class="col-md-3 casts">
                                     <img class="img-responsive" src="{{../config.images.base_url}}{{../config.images.poster_sizes.[0]}}{{poster_path}}">
                                     {{original_title}}
                                 </div>
@@ -218,11 +218,11 @@
                         {{/each_from}}
                     </div>
                      <div>
-                        <a href="#" onclick="togglePrevDiv(this)" class="show-hide">Show/Hide</a>
+                        <a href="javascript:void(0)" onclick="togglePrevDiv(this)" class="show-hide">Show/Hide</a>
                     </div>
                 </div>    
             </div>
-
+            </div>
     </script>
     {% endraw %}
 </body>

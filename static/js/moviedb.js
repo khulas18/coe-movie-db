@@ -12,7 +12,7 @@ function init(){
 			var val = $("#movie-search input").val();
 			searchMovie(val,1,assignPage);
 			showResults();
-			return false;
+			return false
 		});
 		$(".filter-link").click(function(){
 			var query = $(this).attr("id");

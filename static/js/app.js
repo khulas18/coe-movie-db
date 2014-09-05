@@ -75,7 +75,10 @@
 		var pages = [];
 		for (var i=startingPage;i<endPage;i++){
 			var pageObj={
-				page: i
+				page: i,
+			}
+			if(i==result.page){
+				pageObj.active = true;
 			}
 			pages.push(pageObj);
 		}
@@ -84,12 +87,14 @@
 			"currentPage":result.page,
 			"query":query,
 			"startingPage" : (result.page==1)? true: false,
-			"endPage" : (result.page==endPage)? true: false
+			"endPage" : (result.page==endPage)? true: false,
+			"lastPage": (result.total_pages>1000)?1000:result.total_pages
 		}
+		console.log(templateValues);
 		var page = getTemplate("tpl-page",templateValues);
 		html = html + page;
 		$("#movie-list").html(html);
-		$(".page-link:contains('"+result.page+"')").parent().addClass("active");
+
 		//Set Event for page Click
 		$(".page-link").click(function(){
 			if(type=="search"){

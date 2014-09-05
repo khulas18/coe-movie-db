@@ -39,6 +39,8 @@ a{
 	padding: 10px;
 	position: relative;
 	top:-120px;
+	background-color: #303030;
+	opacity:0.8;
 }.poster{
 	height: 100px;
 	width: 100px;
@@ -57,17 +59,21 @@ a{
 	padding-left: 20px;
 	background: gray;
 	border-radius: 20px;
-	border-color: black;
+	border: 2px solid #404040 ;
 	min-height: 353px;
 	float: left;
 	width: 50%; 
 	max-height: 353px;
 }.casts{
 	height: 200px;
+	color:white;
+	padding-top:10px;
 }
 .show-hide{
 	margin-top: 90%;
 	margin-left: 85%;
+	color:white;	
+	height:5px;
 }
 hr{
 	color: black;
@@ -83,4 +89,10 @@ hr{
 	width: 100%;
 }.row{
 	margin-top: 30px;
+	color:white;
+}
+#characters{
+background-color: #303030;
+opacity:0.8;
+	
 }
