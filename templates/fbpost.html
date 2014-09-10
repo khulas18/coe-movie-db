@@ -1,0 +1,67 @@
+
+<html>
+<head>
+	<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/jquery-1.11.0.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/handlebars.js"></script>
+    <script src="/static/js/app.js"></script>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+	var user;
+		$(document).ready(function(){
+			$("#fbpost").submit(function(){
+				if(!user){
+					alert('pleaseLogin');
+					return false;
+				}
+				var message = $("#post").val();
+				var data = {
+					method: "post",
+					message: message,
+					access_token: user.accessToken
+				};
+				$.get("https://graph.facebook.com/v2.1/"+user.userID+"/feed",data,function(response){
+					console.log(response);
+				});
+				return false;
+			})
+		});
+
+		
+		  (function(d, s, id){
+	         var js, fjs = d.getElementsByTagName(s)[0];
+	         if (d.getElementById(id)) {return;}
+	         js = d.createElement(s); js.id = id;
+	         js.src = "//connect.facebook.net/en_US/sdk.js";
+	         fjs.parentNode.insertBefore(js, fjs);
+	       }(document, 'script', 'facebook-jssdk'));
+
+		  window.fbAsyncInit = function() {
+		  FB.init({
+		    appId      : '365075190309550',
+		    cookie     : true,  // enable cookies to allow the server to access 
+		                        // the session
+		    xfbml      : true,  // parse social plugins on this page
+		    version    : 'v2.1' // use version 2.1
+		  });
+		}
+		function checkLoginState(){
+		 FB.login(function(response){user=response.authResponse}, {scope: 'publish_actions',return_scopes:true});
+		}
+		 
+	</script>
+	<h3>Post to Facebook</h3>
+	<form role="search" id="fbpost" style="margin-top: 30px">
+      <div class="form-group">
+        <textarea class="form-control" rows="3" id="post"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div class="btn btn-primary" onclick="checkLoginState()">
+    	Login with facebook
+    </div>
+</body>
+</html>

@@ -30,9 +30,14 @@ class HandlebarsHandler(webapp2.RequestHandler):
     def get(self):
         template = JINJA_ENVIRONMENT.get_template('templates/handelbars.html')
         self.response.write(template.render())
+class FBHandler(webapp2.RequestHandler):
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('templates/fbpost.html')
+        self.response.write(template.render())
 
 application = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/view/(.*)',ViewPage),
-    ('/handlebars', HandlebarsHandler)
+    ('/handlebars', HandlebarsHandler),
+    ('/fb',FBHandler)
 ], debug=True)
